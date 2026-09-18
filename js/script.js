@@ -14,34 +14,6 @@ requestAnimationFrame(() => {
   setTimeout(() => echo2.classList.add('show'), 400);
 });
 
-// ---------- floating like widget (camera icon that wanders the screen) ----------
-const likeWidget = document.getElementById('like-widget');
-const likeCount = document.getElementById('like-count');
-let likes = 0;
-
-function moveWidgetRandomly() {
-  const margin = 100;
-  const maxX = window.innerWidth - margin;
-  const maxY = window.innerHeight - margin;
-  const x = Math.max(20, Math.random() * maxX);
-  const y = Math.max(20, Math.random() * maxY);
-  likeWidget.style.left = x + 'px';
-  likeWidget.style.top = y + 'px';
-}
-
-// wander every few seconds on its own
-setInterval(moveWidgetRandomly, 4000);
-
-likeWidget.addEventListener('click', () => {
-  likes++;
-  likeCount.textContent = likes;
-  likeWidget.classList.add('pulse');
-  setTimeout(() => likeWidget.classList.remove('pulse'), 250);
-
-  // dodge away from the click too
-  moveWidgetRandomly();
-});
-
 // ---------- YouTube embeds: real thumbnail up front, click to play ----------
 // shared by the main reel player and the work gallery tiles
 function setupYoutubeEmbed(container, videoId, title) {
