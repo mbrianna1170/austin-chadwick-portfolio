@@ -1,0 +1,8 @@
+# large media — GitHub blocks files over 100MB; keep this local or host it elsewhere
+assets/demo-reel.mov
+assets/*.mov
+assets/*.mp4
+
+# OS junk
+.DS_Store
+Thumbs.db
