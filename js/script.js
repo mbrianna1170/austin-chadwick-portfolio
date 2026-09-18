@@ -42,31 +42,38 @@ likeWidget.addEventListener('click', () => {
   moveWidgetRandomly();
 });
 
-// ---------- work gallery: real YouTube thumbnail up front, click to play ----------
-document.querySelectorAll('.work-item[data-youtube]').forEach((item) => {
-  const thumb = item.querySelector('.work-thumb');
-  const videoId = item.dataset.youtube;
-
-  // show the video's actual thumbnail immediately, behind the play button
+// ---------- YouTube embeds: real thumbnail up front, click to play ----------
+// shared by the main reel player and the work gallery tiles
+function setupYoutubeEmbed(container, videoId, title) {
   if (videoId && !videoId.startsWith('VIDEO_ID')) {
     const img = document.createElement('img');
-    img.className = 'work-thumb-img';
+    img.className = 'yt-thumb-img';
     img.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-    img.alt = item.querySelector('.work-title').textContent;
-    thumb.prepend(img);
+    img.alt = title;
+    container.prepend(img);
   }
 
-  thumb.addEventListener('click', () => {
+  container.addEventListener('click', () => {
     if (!videoId || videoId.startsWith('VIDEO_ID')) {
-      alert('Add this project\'s real YouTube video ID to the data-youtube attribute in index.html.');
+      alert(`Add ${title}'s real YouTube video ID to its data-youtube attribute in index.html.`);
       return;
     }
     // autoplay is fine here — the real thumbnail already served as the
     // "paused" state, so clicking play should actually start playback
-    thumb.innerHTML = `<iframe
-      src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-      title="${item.querySelector('.work-title').textContent}"
+    container.innerHTML = `<iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1&vq=hd1080"
+      title="${title}"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen></iframe>`;
   });
+}
+
+document.querySelectorAll('.work-item[data-youtube]').forEach((item) => {
+  const thumb = item.querySelector('.work-thumb');
+  setupYoutubeEmbed(thumb, item.dataset.youtube, item.querySelector('.work-title').textContent);
 });
+
+const playerFrame = document.querySelector('.player-frame[data-youtube]');
+if (playerFrame) {
+  setupYoutubeEmbed(playerFrame, playerFrame.dataset.youtube, 'Demo Reel');
+}
