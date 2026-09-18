@@ -317,4 +317,5 @@ footer {
   .work-grid { grid-template-columns: 1fr; }
   #site-logo { top: 16px; left: 20px; height: 48px; }
   #header-email { top: 32px; right: 20px; font-size: 0.7rem; }
+  #echo-line-1, #echo-line-2 { display: none; }
 }
