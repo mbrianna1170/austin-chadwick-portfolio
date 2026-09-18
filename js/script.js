@@ -45,7 +45,18 @@ document.querySelectorAll('.work-item[data-youtube]').forEach((item) => {
   setupYoutubeEmbed(thumb, item.dataset.youtube, item.querySelector('.work-title').textContent);
 });
 
+// main reel: autoplay immediately (muted — browsers block sound on
+// autoplay) instead of showing YouTube's auto-picked thumbnail frame.
+// TODO: once Austin sets a real custom thumbnail on the video, switch
+// this back to setupYoutubeEmbed() for click-to-play-with-sound.
 const playerFrame = document.querySelector('.player-frame[data-youtube]');
 if (playerFrame) {
-  setupYoutubeEmbed(playerFrame, playerFrame.dataset.youtube, 'Demo Reel');
+  const videoId = playerFrame.dataset.youtube;
+  if (videoId && !videoId.startsWith('VIDEO_ID')) {
+    playerFrame.innerHTML = `<iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&vq=hd1080"
+      title="Demo Reel"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>`;
+  }
 }
